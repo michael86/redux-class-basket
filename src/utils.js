@@ -1,4 +1,4 @@
-export const processShoppingCart = (products, shoppingCartItems) => {
+export const processShoppingCart = ({ products, shoppingCartItems }) => {
   //holds total cart value
   let cartTotal = 0;
 
@@ -13,4 +13,16 @@ export const processShoppingCart = (products, shoppingCartItems) => {
   });
 
   return { shoppingCartItems, cartTotal };
+};
+
+export const onDeleteCartItem = (shoppingCartItems, id) => {
+  const indexOfCartItem = shoppingCartItems.findIndex((item) => item.id === id);
+
+  shoppingCartItems.splice(indexOfCartItem, 1);
+
+  console.log("<><><>", shoppingCartItems);
+
+  return shoppingCartItems;
+
+  // return this.props.dispatch({ shoppingCartItems });
 };

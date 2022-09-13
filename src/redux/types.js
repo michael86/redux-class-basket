@@ -1,0 +1,6 @@
+export const UPDATE_PRODUCTS = "UPDATE_PRODUCTS";
+export const UPDATE_CART = "UPDATE_CART";
+export const CHANGE_SCREEN = "CHANGE_SCREEN";
+export const UPDATE_SEARCHTERM = "UPDATE_SEARCHTERM";
+export const DELETE_FROM_CART = "DELETE_FROM_CART";
+export const ADD_TO_CART = "ADD_TO_CART";

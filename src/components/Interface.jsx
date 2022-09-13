@@ -1,54 +1,52 @@
 import React, { Component } from "react";
 import Product from "./Product";
 import ShoppingCart from "./ShoppingCart";
+import { connect } from "react-redux";
+import { CHANGE_SCREEN, UPDATE_SEARCHTERM } from "../redux/types";
 
 class Interface extends Component {
-  state = { screen: 1, searchTerm: "" }; //screen 0 will be products and 1 will be shopping cart
-
-  onScreenMode = (screen) => {
-    this.setState({ screen });
-  };
-
   render() {
-    const { products, onBuyNow, shoppingCartItems, onDeleteCartItem } =
-      this.props;
-    const { screen, searchTerm } = this.state;
+    const { products, screen, filter } = this.props;
 
     //what products do I want to keep?
-    const filtered = [...this.props.products].filter((product) => {
+    const filtered = [...products].filter((product) => {
       //work out if the product matches the search term
-      return product.title.toLowerCase().includes(searchTerm.toLowerCase());
+      return product.title.toLowerCase().includes(filter.toLowerCase());
     });
 
     const results = filtered.length > 0 ? filtered : products;
 
     return screen === 0 ? (
       <>
-        <button onClick={() => this.onScreenMode(1)}>View shopping cart</button>
+        <button onClick={() => this.props.dispatch({ type: CHANGE_SCREEN })}>
+          View shopping cart
+        </button>
+
         <input
           type="text"
           onInput={(e) => {
-            this.setState({ searchTerm: e.target.value });
+            this.props.dispatch({
+              type: UPDATE_SEARCHTERM,
+              payload: e.target.value,
+            });
           }}
         />
+
         {results.map((product) => (
-          <Product
-            onScreenMode={this.onScreenMode}
-            key={product.id}
-            product={product}
-            onBuyNow={onBuyNow}
-          />
+          <Product key={product.id} product={product} />
         ))}
       </>
     ) : (
-      <ShoppingCart
-        onScreenMode={this.onScreenMode}
-        products={products}
-        shoppingCartItems={shoppingCartItems}
-        onDeleteCartItem={onDeleteCartItem}
-      />
+      <ShoppingCart products={products} />
     );
   }
 }
 
-export default Interface;
+const mapStateToProps = (state) => {
+  return {
+    screen: state.screen,
+    filter: state.filter,
+  };
+};
+
+export default connect(mapStateToProps)(Interface);
