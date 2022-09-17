@@ -19,7 +19,7 @@ class App extends Component {
     const { products } = this.props;
 
     if (products) {
-      return <Interface products={products} />;
+      return <Interface />;
     }
 
     return <p>Loading...</p>;

@@ -44,6 +44,7 @@ class Interface extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    products: state.products,
     screen: state.screen,
     filter: state.filter,
   };
